@@ -1,11 +1,25 @@
+document.addEventListener('DOMContentLoaded', () =>  {
+    let ain = localStorage.getItem('lista_global')
+
+    console.log(ain)
+
+    let i = 0
+    for(i; i<ain.length; i++);{
+        console.log(i)
+        let dicionario_com_ctt = ain[i];
+
+        criar_linhas(dicionario_com_ctt);
+    }
+
+})
 
 
-let lista_com_ctts = [] 
+function criar_linhas(dict){
 
-function criar_linhas(lista){
+
     const nova_li = document.createElement('li')
 
-    nova_li.innerHTML = `${lista[0]}   ${lista[1]}` 
+    nova_li.innerHTML = `${dict['name']}  -  ${dict['number']}` 
 
     document.querySelector('ul').append(nova_li)
 }
@@ -13,22 +27,29 @@ function criar_linhas(lista){
 
 document.querySelector('#enviar').onclick = () => {
 
-console.log('hahdhdhiuahudcxs')
-
+    let lista_de_ctts = [] 
+    let lista_antiga = localStorage.getItem('lista_global');
+    
+    
+    
     nome = document.querySelector('#nome_do_ctt').value;
     numero = document.querySelector('#numero_do_ctt').value;
 
 
-    let lista = [nome, numero];
+    let dicionario = {name:nome, number:numero};
 
     
-    lista_com_ctts.push(lista);
+    lista_de_ctts.push(dicionario);
+    lista_de_ctts.push(lista_antiga);
     
-
+   
     document.querySelector('#nome_do_ctt').value = ''
     document.querySelector('#numero_do_ctt').value = ''
 
-criar_linhas(lista);
+criar_linhas(dicionario);
+
+    localStorage.clear();
+    localStorage.setItem('lista_global', lista_de_ctts)
 
 
 }

@@ -67,6 +67,10 @@ font-size: 1.8rem;
 
 }
 
+#barra_de_digitacao{gap:10px;
+    
+}
+
 li{
 background-color: #F3E8EE;
 text-align: center;
