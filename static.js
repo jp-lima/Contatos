@@ -1,18 +1,3 @@
-document.addEventListener('DOMContentLoaded', () =>  {
-    let ain = localStorage.getItem('lista_global')
-
-    console.log(ain)
-
-    let i = 0
-    for(i; i<ain.length; i++);{
-        console.log(i)
-        let dicionario_com_ctt = ain[i];
-
-        criar_linhas(dicionario_com_ctt);
-    }
-
-})
-
 
 function criar_linhas(dict){
 
@@ -25,10 +10,24 @@ function criar_linhas(dict){
 }
 
 
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    let ain = JSON.parse(localStorage.getItem('lista_global') || '[]');
+    console.log('puta que')
+    console.log(ain); // Agora mostra a lista corretamente
+
+    for (let i = 0; i < ain.length; i++) {
+      console.log(i);
+      let dicionario_com_ctt = ain[i];
+      criar_linhas(dicionario_com_ctt);
+    }
+});
 document.querySelector('#enviar').onclick = () => {
 
-    let lista_de_ctts = [] 
-    let lista_antiga = localStorage.getItem('lista_global');
+    let lista_antiga = JSON.parse(localStorage.getItem('lista_global') || '[]');
     
     
     
@@ -39,8 +38,8 @@ document.querySelector('#enviar').onclick = () => {
     let dicionario = {name:nome, number:numero};
 
     
-    lista_de_ctts.push(dicionario);
-    lista_de_ctts.push(lista_antiga);
+    lista_antiga.push(dicionario);
+    
     
    
     document.querySelector('#nome_do_ctt').value = ''
@@ -48,8 +47,7 @@ document.querySelector('#enviar').onclick = () => {
 
 criar_linhas(dicionario);
 
-    localStorage.clear();
-    localStorage.setItem('lista_global', lista_de_ctts)
+    localStorage.setItem('lista_global', JSON.stringify(lista_antiga));
 
 
 }
