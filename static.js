@@ -1,4 +1,5 @@
 
+
 function criar_linhas(dict){
 
 
@@ -110,7 +111,19 @@ document.querySelector('#bt_pesquisar').onclick = () => {
     
 }
 
+let modoApagar = false
+
 document.querySelector('#bt_deletar').onclick = () => {
+
+
+    if(modoApagar){
+        modoApagar = false
+    }
+    else{
+        modoApagar = true
+    }
+
+
 
     let lista_global = JSON.parse(localStorage.getItem('lista_global') || '[]');
 
@@ -118,13 +131,34 @@ document.querySelector('#bt_deletar').onclick = () => {
 
     if(lista_global.length > 0){
 
-    document.querySelectorAll('li').forEach((li) => {  
-    li.onclick = () => {
+        if(modoApagar){
+            //document.querySelector('#deletador').style.display ='inline'
+            
+            document.querySelectorAll('li').forEach((li) => { 
 
-        li.remove();
+            li.style.background = "#C41010"
+     
+            li.onclick = () => {
 
-        console.log(li.textContent)
+            li.remove();
+
+            console.log(li.textContent)
+            }}
+                                                    )
+
+            // SE O MODO APAGAR ESTIVER DESATIVADO:
+        }else {
+            //document.querySelector('#deletador').style.display = 'none';
+
+
+            document.querySelectorAll('li').forEach((li) => {
+                li.onclick = () => {
+                    console.log('AIN CALICA NORMAL')
+                }
+                
+                li.style.backgroundColor = "#F3E8EE"
+            })
+        }
+
     }
-}
-)}
 }

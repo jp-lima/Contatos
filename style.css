@@ -82,9 +82,29 @@ font-size: 1.2rem;
 }
 
 ul{
-margin-top:2rem;
+margin-top:-1.5rem;
 }
 
 #avisos{
     color:red;
+}
+
+#lista_contatos{
+    flex-direction:row ;
+    
+    
+}
+
+#lista_contatos button{
+    
+    color: white;
+    display:block;
+    height:30px;
+    margin:20px ;
+    margin-top: -16px;
+    background-color: #DC143C;
+    border: 1.8px solid white;
+    
+
+    
 }
