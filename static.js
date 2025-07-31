@@ -1,4 +1,4 @@
-
+document.querySelector('dialog').style.display = 'none'
 
 function criar_linhas(dict){
 
@@ -49,8 +49,7 @@ criar_linhas(dicionario);
 document.querySelector('#bt_pesquisar').onclick = () => {
     let contato_encontrado = 0
     let lista_global = JSON.parse(localStorage.getItem('lista_global') || '[]');
-
-     let i = 0
+    let i = 0
 
     const numero_pesquisado = document.querySelector('#numero_do_ctt').value || ''
     const nome_pesquisado = document.querySelector('#nome_do_ctt').value || ''
@@ -102,16 +101,15 @@ document.querySelector('#bt_pesquisar').onclick = () => {
             criar_linhas(dicionario)
         }
 
-    }
-
-    else{
+    }else{
         const elemento_aviso = document.querySelector('#avisos');
         elemento_aviso.textContent = "Nenhum contato correspondente com sua pesquisa";
     }
     
 }
-
+let ctts_que_serao_apagados = []
 let modoApagar = false
+document.querySelector('#deletador').style.display ='none'
 
 document.querySelector('#bt_deletar').onclick = () => {
 
@@ -132,7 +130,11 @@ document.querySelector('#bt_deletar').onclick = () => {
     if(lista_global.length > 0){
 
         if(modoApagar){
-            //document.querySelector('#deletador').style.display ='inline'
+            document.querySelector('#deletador').style.display ='inline'
+
+            document.querySelector('#deletador').onclick = () => {
+                
+            }
             
             document.querySelectorAll('li').forEach((li) => { 
 
@@ -140,25 +142,67 @@ document.querySelector('#bt_deletar').onclick = () => {
      
             li.onclick = () => {
 
-            li.remove();
+            li.style.backgroundColor = "#580002";
 
-            console.log(li.textContent)
-            }}
+            let contato = li.textContent.split('-')
+            
+            
+            let nome_ctt_escolhido = contato[0].trim()
+            let number_ctt_escolhido = contato[1].trim() 
+            let i = 0
+            
+
+            for(i; i < lista_global.length; i++){
+                let dict_dentro_da_listaglobal = lista_global[i]
+
+                if(nome_ctt_escolhido == dict_dentro_da_listaglobal['name'] && number_ctt_escolhido == dict_dentro_da_listaglobal['number'] ){
+                    //console.log(dict_dentro_da_listaglobal)
+                    ctts_que_serao_apagados.push(dict_dentro_da_listaglobal)
+                }
+            }
+            console.log(ctts_que_serao_apagados)
+            }
+        
+        }
                                                     )
+
+
+        document.querySelector('#deletador').onclick = () => {
+
+
+            const dialog = document.querySelector('dialog')
+            dialog.showModal()
+            dialog.style.display = 'inline'
+            document.querySelector('#dialog_nao').onclick = () => {
+            dialog.style.display = 'none'
+            dialog.close()
+            }
+
+
+            let b = 0
+
+            for(b; b < ctts_que_serao_apagados; b++){
+            }
+            }
+
+
 
             // SE O MODO APAGAR ESTIVER DESATIVADO:
         }else {
-            //document.querySelector('#deletador').style.display = 'none';
+            document.querySelector('#deletador').style.display = 'none';
 
 
             document.querySelectorAll('li').forEach((li) => {
                 li.onclick = () => {
-                    console.log('AIN CALICA NORMAL')
+                    console.log('nada')
                 }
                 
                 li.style.backgroundColor = "#F3E8EE"
+
+                
             })
         }
 
     }
 }
+

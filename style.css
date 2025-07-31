@@ -104,7 +104,10 @@ margin-top:-1.5rem;
     margin-top: -16px;
     background-color: #DC143C;
     border: 1.8px solid white;
-    
 
-    
+}
+
+dialog{
+    height: auto;
+    width: auto;
 }
