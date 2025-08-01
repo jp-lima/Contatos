@@ -104,14 +104,16 @@ document.querySelector('#bt_pesquisar').onclick = () => {
     }else{
         const elemento_aviso = document.querySelector('#avisos');
         elemento_aviso.textContent = "Nenhum contato correspondente com sua pesquisa";
-    }
-    
-}
-let ctts_que_serao_apagados = []
+    }}
+
+
 let modoApagar = false
 document.querySelector('#deletador').style.display ='none'
 
+
 document.querySelector('#bt_deletar').onclick = () => {
+    let ctts_que_serao_apagados = []
+
 
 
     if(modoApagar){
@@ -139,9 +141,7 @@ document.querySelector('#bt_deletar').onclick = () => {
             document.querySelectorAll('li').forEach((li) => { 
 
             li.style.background = "#C41010"
-     
             li.onclick = () => {
-
             li.style.backgroundColor = "#580002";
 
             let contato = li.textContent.split('-')
@@ -151,40 +151,76 @@ document.querySelector('#bt_deletar').onclick = () => {
             let number_ctt_escolhido = contato[1].trim() 
             let i = 0
             
-
+            //ver o contato dentro do li e dizer qual o correspondente dele na lista_global
             for(i; i < lista_global.length; i++){
                 let dict_dentro_da_listaglobal = lista_global[i]
 
                 if(nome_ctt_escolhido == dict_dentro_da_listaglobal['name'] && number_ctt_escolhido == dict_dentro_da_listaglobal['number'] ){
-                    //console.log(dict_dentro_da_listaglobal)
+                    
+                    if(ctts_que_serao_apagados.indexOf(dict_dentro_da_listaglobal) === -1){
                     ctts_que_serao_apagados.push(dict_dentro_da_listaglobal)
-                }
+                    }else{
+                        ctts_que_serao_apagados.splice(ctts_que_serao_apagados.indexOf(dict_dentro_da_listaglobal), 1)
+                        li.style.background = "#C41010"
+                    }}
             }
-            console.log(ctts_que_serao_apagados)
-            }
+           
         
         }
-                                                    )
+         } )
 
 
         document.querySelector('#deletador').onclick = () => {
 
-
+            // FUNCIONAMENTO DO POP-UP
             const dialog = document.querySelector('dialog')
             dialog.showModal()
             dialog.style.display = 'inline'
+
+            // SE CLICAR NÃO NO POP-UP
             document.querySelector('#dialog_nao').onclick = () => {
+            
+            ctts_que_serao_apagados = []
+
+            document.querySelectorAll('li').forEach((li) => {
+                li.style.backgroundColor = "#C41010"
+            })
+            
             dialog.style.display = 'none'
             dialog.close()
             }
 
-
+            //SE CLICAR SIM NO POP-UP
+            document.querySelector('#dialog_sim').onclick =() => {
             let b = 0
 
-            for(b; b < ctts_que_serao_apagados; b++){
-            }
+            for(b; b < ctts_que_serao_apagados.length; b++){
+                console.log(b)
+
+                let ctt_vai_ser_apagado = ctts_que_serao_apagados[b]
+                
+                lista_global.splice(lista_global.indexOf(ctt_vai_ser_apagado), 1)
             }
 
+            document.querySelectorAll('li').forEach((li) => {li.remove()})
+
+            for(let b=0; b < lista_global.length; b++){
+                let dict_c_ctt = lista_global[b]
+                criar_linhas(dict_c_ctt)
+            }
+            
+            dialog.style.display ='none'
+            dialog.close()
+            modoApagar = false
+            document.querySelector('#deletador').style.display = 'none'
+
+            localStorage.setItem('lista_global', JSON.stringify(lista_global));
+        
+        }
+
+
+
+            }
 
 
             // SE O MODO APAGAR ESTIVER DESATIVADO:

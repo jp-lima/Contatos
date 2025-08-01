@@ -8,6 +8,7 @@ margin: 0px;
 body{
 gap: 3rem;
     background-color: #F3A738;
+
 }
 
 #crud_e_botões{
@@ -107,7 +108,22 @@ margin-top:-1.5rem;
 
 }
 
+
+
 dialog{
-    height: auto;
-    width: auto;
+    height: 15%;
+    width: 30%;
+    margin: auto;
+    flex-direction: row;
+    
+}
+
+dialog h2{
+    color: #0d0630;
+}
+
+dialog div{
+    margin-left:10rem ;
+    gap: 4rem;
+    
 }
