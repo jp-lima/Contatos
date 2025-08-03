@@ -1,4 +1,6 @@
-document.querySelector('dialog').style.display = 'none'
+document.querySelector('#popup_deletar').style.display = 'none'
+document.querySelector('#popup_alterar').style.display = 'none'
+
 
 function criar_linhas(dict){
 
@@ -114,8 +116,6 @@ document.querySelector('#deletador').style.display ='none'
 document.querySelector('#bt_deletar').onclick = () => {
     let ctts_que_serao_apagados = []
 
-
-
     if(modoApagar){
         modoApagar = false
     }
@@ -123,11 +123,7 @@ document.querySelector('#bt_deletar').onclick = () => {
         modoApagar = true
     }
 
-
-
     let lista_global = JSON.parse(localStorage.getItem('lista_global') || '[]');
-
-
 
     if(lista_global.length > 0){
 
@@ -135,9 +131,7 @@ document.querySelector('#bt_deletar').onclick = () => {
             document.querySelector('#deletador').style.display ='inline'
 
             document.querySelector('#deletador').onclick = () => {
-                
             }
-            
             document.querySelectorAll('li').forEach((li) => { 
 
             li.style.background = "#C41010"
@@ -145,7 +139,6 @@ document.querySelector('#bt_deletar').onclick = () => {
             li.style.backgroundColor = "#580002";
 
             let contato = li.textContent.split('-')
-            
             
             let nome_ctt_escolhido = contato[0].trim()
             let number_ctt_escolhido = contato[1].trim() 
@@ -156,7 +149,7 @@ document.querySelector('#bt_deletar').onclick = () => {
                 let dict_dentro_da_listaglobal = lista_global[i]
 
                 if(nome_ctt_escolhido == dict_dentro_da_listaglobal['name'] && number_ctt_escolhido == dict_dentro_da_listaglobal['number'] ){
-                    
+
                     if(ctts_que_serao_apagados.indexOf(dict_dentro_da_listaglobal) === -1){
                     ctts_que_serao_apagados.push(dict_dentro_da_listaglobal)
                     }else{
@@ -164,16 +157,13 @@ document.querySelector('#bt_deletar').onclick = () => {
                         li.style.background = "#C41010"
                     }}
             }
-           
-        
+
         }
          } )
 
-
         document.querySelector('#deletador').onclick = () => {
-
             // FUNCIONAMENTO DO POP-UP
-            const dialog = document.querySelector('dialog')
+            const dialog = document.querySelector('#popup_deletar')
             dialog.showModal()
             dialog.style.display = 'inline'
 
@@ -185,7 +175,6 @@ document.querySelector('#bt_deletar').onclick = () => {
             document.querySelectorAll('li').forEach((li) => {
                 li.style.backgroundColor = "#C41010"
             })
-            
             dialog.style.display = 'none'
             dialog.close()
             }
@@ -195,10 +184,8 @@ document.querySelector('#bt_deletar').onclick = () => {
             let b = 0
 
             for(b; b < ctts_que_serao_apagados.length; b++){
-                console.log(b)
-
-                let ctt_vai_ser_apagado = ctts_que_serao_apagados[b]
                 
+                let ctt_vai_ser_apagado = ctts_que_serao_apagados[b]
                 lista_global.splice(lista_global.indexOf(ctt_vai_ser_apagado), 1)
             }
 
@@ -208,18 +195,13 @@ document.querySelector('#bt_deletar').onclick = () => {
                 let dict_c_ctt = lista_global[b]
                 criar_linhas(dict_c_ctt)
             }
-            
             dialog.style.display ='none'
             dialog.close()
             modoApagar = false
             document.querySelector('#deletador').style.display = 'none'
 
             localStorage.setItem('lista_global', JSON.stringify(lista_global));
-        
         }
-
-
-
             }
 
 
@@ -232,13 +214,95 @@ document.querySelector('#bt_deletar').onclick = () => {
                 li.onclick = () => {
                     console.log('nada')
                 }
-                
                 li.style.backgroundColor = "#F3E8EE"
-
-                
             })
         }
 
     }
 }
 
+let modoAlterar = false
+
+
+document.querySelector('#bt_alterar').onclick = () => {
+
+    let lista_global = JSON.parse(localStorage.getItem('lista_global') || '[]');
+
+    const dialogAlterar = document.querySelector('#popup_alterar')
+
+
+    if(modoAlterar){
+        modoAlterar = false
+    }else{
+        modoAlterar = true
+    }
+
+    
+
+
+    
+    if(modoAlterar){
+    document.querySelectorAll('li').forEach((li) => {
+
+
+
+        li.style.background = 'green'
+
+        li.onclick = () => {
+            console.log(li.textContent)
+
+            let contato_q_vai_ser_alterado = li.textContent.split('-')
+            dialogAlterar.style.display = 'inline'
+            dialogAlterar.showModal()
+            
+            document.querySelector('#dialog_nome').value = contato_q_vai_ser_alterado[0].trim()
+            document.querySelector('#dialog_numero').value = contato_q_vai_ser_alterado[1].trim()
+            
+
+
+
+
+        }
+
+    } 
+
+    
+    
+    )}
+    
+    
+    else{
+        document.querySelectorAll('li').forEach( (li) =>{
+        li.style.background = '#F3E8EE'
+    })
+    }
+
+
+
+    document.querySelector("#btdialog_salvar").onclick = () => {
+        nome_ctt_alterado = contato_q_vai_ser_alterado[0].trim()
+        nmr_ctt_alterado = contato_q_vai_ser_alterado[1].trim()
+
+        for(let d = 0;d < lista_global.length; d++){
+
+            let dict_analisado = lista_global[d]
+
+            if(nome_ctt_alterado == dict_analisado['name'] && nmr_ctt_alterado == dict_analisado['number'] ){
+
+                console.log(dict_analisado)
+            }
+
+        }
+
+        }
+
+
+
+    document.querySelector("#btdialog_apagar").onclick = () => {
+        dialogAlterar.style.display = 'none'
+        dialogAlterar.close()
+    
+        }
+
+
+}
